@@ -1,89 +1,53 @@
 'use client';
 
-import { useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useRouter } from 'next/navigation';
-import type { User } from '@supabase/auth-helpers-nextjs';
+import { useRef } from 'react';
+import { createPrice } from '@/app/actions';
 
-export default function AddPriceForm({ user }: { user: User }) {
-  const router = useRouter();
-  const supabase = createClientComponentClient();
-
-  const [vegetable, setVegetable] = useState('');
-  const [price, setPrice] = useState('');
-  const [market, setMarket] = useState('R.S. Puram');
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage('');
-
-    const { error } = await supabase
-      .from('prices')
-      .insert({ 
-        vegetable_name: vegetable, 
-        price: Number(price), 
-        market_name: market,
-        user_id: user.id,
-      });
-
-    setLoading(false);
-
-    if (error) {
-      setMessage('Error: ' + error.message);
-    } else {
-      setMessage('Vilayai serthachu! Nandri!');
-      setVegetable('');
-      setPrice('');
-      router.refresh(); 
-    }
-  };
+export default function AddPriceForm({ user }: { user: any }) {
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mt-10">
-      <h3 className="text-lg font-bold mb-4 text-gray-800">Pudhiya Vilayai Serkka</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div className="mb-8 p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">Pudhiya Vilayai Serkka</h2>
+      <form
+        ref={formRef}
+        action={async (formData) => {
+          await createPrice(formData);
+          formRef.current?.reset();
+        }}
+        className="space-y-4"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <input
             type="text"
+            name="vegetable_name"
             placeholder="Kaaykari Peyar (e.g., Thakkali)"
-            value={vegetable}
-            onChange={(e) => setVegetable(e.target.value)}
-            // Intha line-la text color-a maathirukom
-            className="p-2 border rounded-md w-full md:col-span-2 text-gray-900 placeholder:text-gray-500 focus:ring-green-500 focus:border-green-500"
             required
+            className="p-3 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
           />
           <input
             type="number"
+            name="price"
             placeholder="Vilai (₹)"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            // Intha line-la text color-a maathirukom
-            className="p-2 border rounded-md w-full text-gray-900 placeholder:text-gray-500 focus:ring-green-500 focus:border-green-500"
             required
+            className="p-3 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
           />
-          <select
-            value={market}
-            onChange={(e) => setMarket(e.target.value)}
-            // Intha line-la text color-a maathirukom
-            className="p-2 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
-          >
-            <option>R.S. Puram</option>
-            <option>Singanallur</option>
-            <option>Saibaba Colony</option>
-            <option>Vadavalli</option>
-          </select>
+          {/* Market name is now a text input */}
+          <input
+            type="text"
+            name="market_name"
+            placeholder="Sandhai Peyar (e.g., R.S. Puram)"
+            required
+            className="p-3 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
+          />
         </div>
+
         <button
           type="submit"
-          disabled={loading}
-          className="mt-4 w-full bg-green-600 text-white p-2 rounded-md hover:bg-green-700 disabled:bg-gray-400"
+          className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition-colors font-semibold"
         >
-          {loading ? 'Serkkiradhu...' : 'Vilayai Pathivu Sei'}
+          Vilayai Pathivu Sei
         </button>
-        {message && <p className="mt-4 text-center text-sm text-gray-600">{message}</p>}
       </form>
     </div>
   );

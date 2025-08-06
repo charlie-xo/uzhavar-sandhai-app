@@ -53,12 +53,12 @@ export default function LoginPage() {
         
         {view === 'check-email' ? (
           <p className="text-center text-gray-700">
-            Ungalukku oru verification link anupirukom. Unga email-a check pannunga.
+            "உங்களுக்கு ஒரு verification link அனுப்பியுள்ளோம். உங்கள் email-ஐ check செய்யவும்."
           </p>
         ) : (
           <>
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
-              {view === 'sign-in' ? 'Ulla Nuzhai' : 'Pudhu Kanakku'}
+              {view === 'sign-in' ? 'உள்ளே நுழை' : 'Pudhu Kanakku'}
             </h2>
             <form onSubmit={view === 'sign-in' ? handleSignIn : handleSignUp}>
               <div className="space-y-4">
