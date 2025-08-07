@@ -1,53 +1,38 @@
 'use client';
 
-import { useRef } from 'react';
-import { createPrice } from '@/app/actions';
+import { useState } from 'react';
+import { User } from '@supabase/auth-helpers-nextjs';
 
-export default function AddPriceForm() {
-  const formRef = useRef<HTMLFormElement>(null);
+type Props = {
+  user: User;
+};
+
+export default function AddPriceForm({ user }: Props) {
+  const [price, setPrice] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Example usage of user.id
+    console.log('Submitting price for user:', user.id);
+
+    // Add your Supabase logic here
+  };
 
   return (
-    <div className="mb-8 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Pudhiya Vilayai Serkka</h2>
-      <form
-        ref={formRef}
-        action={async (formData: FormData) => {
-          await createPrice(formData);
-          formRef.current?.reset();
-        }}
-        className="space-y-4"
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        type="text"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        placeholder="Enter price"
+        className="w-full p-3 border rounded-md"
+      />
+      <button
+        type="submit"
+        className="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input
-            type="text"
-            name="vegetable_name"
-            placeholder="Kaaykari Peyar (e.g., Thakkali)"
-            required
-            className="p-3 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
-          />
-          <input
-            type="number"
-            name="price"
-            placeholder="Vilai (₹)"
-            required
-            className="p-3 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
-          />
-          <input
-            type="text"
-            name="market_name"
-            placeholder="Sandhai Peyar (e.g., R.S. Puram)"
-            required
-            className="p-3 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition-colors font-semibold"
-        >
-          Vilayai Pathivu Sei
-        </button>
-      </form>
-    </div>
+        Submit Price
+      </button>
+    </form>
   );
 }
