@@ -1,16 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { createPrice } from '@/app/actions'; // ✅ if you actually use it
-
-
+import { createPrice } from '@/app/actions'; // ✅ Correct import
 
 export default function AddPriceForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
     setIsSubmitting(true);
-    await addPrice(formData);
+    await createPrice(formData); // ✅ Fixed function call
     setIsSubmitting(false);
   };
 
