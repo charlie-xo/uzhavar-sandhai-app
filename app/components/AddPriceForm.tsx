@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { createPrice } from '@/app/actions';
 
-export default function AddPriceForm({ user }: { user: any }) {
+export default function AddPriceForm() {
   const formRef = useRef<HTMLFormElement>(null);
 
   return (

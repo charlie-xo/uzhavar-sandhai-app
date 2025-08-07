@@ -53,7 +53,7 @@ export default function LoginPage() {
         
         {view === 'check-email' ? (
           <p className="text-center text-gray-700">
-            "உங்களுக்கு ஒரு verification link அனுப்பியுள்ளோம். உங்கள் email-ஐ check செய்யவும்."
+            Ungalukku oru verification link anuppiyullom. Unga email-a check seiyavum.
           </p>
         ) : (
           <>
@@ -89,14 +89,14 @@ export default function LoginPage() {
             <div className="text-center mt-4">
               {view === 'sign-in' ? (
                 <p className="text-sm text-gray-600">
-                  Pudhu kanaku thodanga?{' '}
+                  Pudhu kanaku thodanga?&nbsp;
                   <button onClick={() => setView('sign-up')} className="text-green-600 hover:underline font-semibold">
                     Sign Up
                   </button>
                 </p>
               ) : (
                 <p className="text-sm text-gray-600">
-                  Aൾready kanaku iruka?{' '}
+                  Already kanaku iruka?&nbsp;
                   <button onClick={() => setView('sign-in')} className="text-green-600 hover:underline font-semibold">
                     Login
                   </button>

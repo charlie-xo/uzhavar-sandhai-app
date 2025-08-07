@@ -3,9 +3,21 @@
 import { useState } from 'react';
 import { deletePrice, updatePrice } from '@/app/actions';
 import { Pencil, Trash2, Store } from 'lucide-react';
+import type { Session } from '@supabase/auth-helpers-nextjs';
 
-export default function PriceList({ prices, session }: { prices: any[], session: any }) {
-  const [editingItem, setEditingItem] = useState<any | null>(null);
+// Price object-ku oru sariyana type-a define pannurom
+type Price = {
+  id: string;
+  created_at: string;
+  vegetable_name: string;
+  price: number;
+  market_name: string;
+  user_id: string;
+};
+
+// Puthu type-a props-layum useState-layum use panrom
+export default function PriceList({ prices, session }: { prices: Price[], session: Session | null }) {
+  const [editingItem, setEditingItem] = useState<Price | null>(null);
 
   const handleUpdate = async (formData: FormData) => {
     if (editingItem) {
@@ -20,7 +32,7 @@ export default function PriceList({ prices, session }: { prices: any[], session:
         {prices.map((item) => (
           <div key={item.id} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-between">
             {editingItem && editingItem.id === item.id ? (
-              // Edit Form - Font color fix
+              // Edit Form
               <form action={handleUpdate} className="p-5 space-y-3">
                 <input type="text" name="vegetable_name" defaultValue={item.vegetable_name} className="p-2 border rounded-md w-full text-gray-900" required />
                 <input type="number" name="price" defaultValue={item.price} className="p-2 border rounded-md w-full text-gray-900" required />
