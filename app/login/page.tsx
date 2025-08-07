@@ -13,7 +13,7 @@ export default function LoginPage() {
   const router = useRouter();
   const supabase = createClientComponentClient();
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { error } = await supabase.auth.signUp({
       email,
@@ -30,7 +30,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleSignIn = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -53,7 +53,7 @@ export default function LoginPage() {
 
         {view === 'check-email' ? (
           <p className="text-center text-gray-700">
-            {"Ungalukku oru verification link anuppiyullom. Unga email-a check seiyavum."}
+            Ungalukku oru verification link anuppiyullom. Unga email-a check seiyavum.
           </p>
         ) : (
           <>
