@@ -1,47 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { createPrice } from '@/app/actions'; // ✅ Correct import
+import { Session } from '@supabase/auth-helpers-nextjs';
 
-export default function AddPriceForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+type Props = {
+  prices: any[]; // You can replace `any` with your actual price type
+  session: Session | null;
+};
 
-  const handleSubmit = async (formData: FormData) => {
-    setIsSubmitting(true);
-    await createPrice(formData); // ✅ Fixed function call
-    setIsSubmitting(false);
-  };
-
+export default function PriceList({ prices, session }: Props) {
   return (
-    <form action={handleSubmit} className="space-y-4">
-      <input
-        type="text"
-        name="vegetable_name"
-        placeholder="Vegetable Name"
-        className="p-2 border rounded-md w-full text-gray-900"
-        required
-      />
-      <input
-        type="number"
-        name="price"
-        placeholder="Price"
-        className="p-2 border rounded-md w-full text-gray-900"
-        required
-      />
-      <input
-        type="text"
-        name="market_name"
-        placeholder="Market Name"
-        className="p-2 border rounded-md w-full text-gray-900"
-        required
-      />
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-      >
-        {isSubmitting ? 'Adding...' : 'Add Price'}
-      </button>
-    </form>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {prices.map((price, index) => (
+        <div key={index} className="border p-4 rounded shadow">
+          <p className="text-lg font-semibold">{price.item}</p>
+          <p className="text-gray-600">₹{price.amount}</p>
+          {session && (
+            <p className="text-sm text-green-600">Updated by: {session.user.email}</p>
+          )}
+        </div>
+      ))}
+    </div>
   );
 }
