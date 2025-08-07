@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { addPrice } from '@/app/actions';
+import { createPrice } from '@/app/actions';
+
 
 export default function AddPriceForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
