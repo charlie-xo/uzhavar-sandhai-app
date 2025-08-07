@@ -2,8 +2,13 @@
 
 import { Session } from '@supabase/auth-helpers-nextjs';
 
+type Price = {
+  item: string;
+  amount: number;
+};
+
 type Props = {
-  prices: any[]; // You can replace `any` with your actual price type
+  prices: Price[];
   session: Session | null;
 };
 
