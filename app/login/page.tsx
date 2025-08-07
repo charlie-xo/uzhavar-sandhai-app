@@ -8,7 +8,7 @@ import { Leaf } from 'lucide-react';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [view, setView] = useState('sign-in'); // 'sign-in' or 'sign-up'
+  const [view, setView] = useState<'sign-in' | 'sign-up' | 'check-email'>('sign-in');
   const [message, setMessage] = useState('');
   const router = useRouter();
   const supabase = createClientComponentClient();
@@ -50,16 +50,17 @@ export default function LoginPage() {
         <div className="flex justify-center mb-6">
           <Leaf className="text-green-600 h-12 w-12" />
         </div>
-        
+
         {view === 'check-email' ? (
           <p className="text-center text-gray-700">
-            Ungalukku oru verification link anuppiyullom. Unga email-a check seiyavum.
+            {"Ungalukku oru verification link anuppiyullom. Unga email-a check seiyavum."}
           </p>
         ) : (
           <>
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
               {view === 'sign-in' ? 'உள்ளே நுழை' : 'Pudhu Kanakku'}
             </h2>
+
             <form onSubmit={view === 'sign-in' ? handleSignIn : handleSignUp}>
               <div className="space-y-4">
                 <input
@@ -79,6 +80,7 @@ export default function LoginPage() {
                   required
                 />
               </div>
+
               <button
                 type="submit"
                 className="w-full bg-green-600 text-white p-3 rounded-md mt-6 hover:bg-green-700 transition-colors"
@@ -86,24 +88,34 @@ export default function LoginPage() {
                 {view === 'sign-in' ? 'Login' : 'Sign Up'}
               </button>
             </form>
+
             <div className="text-center mt-4">
               {view === 'sign-in' ? (
                 <p className="text-sm text-gray-600">
                   Pudhu kanaku thodanga?&nbsp;
-                  <button onClick={() => setView('sign-up')} className="text-green-600 hover:underline font-semibold">
+                  <button
+                    onClick={() => setView('sign-up')}
+                    className="text-green-600 hover:underline font-semibold"
+                  >
                     Sign Up
                   </button>
                 </p>
               ) : (
                 <p className="text-sm text-gray-600">
                   Already kanaku iruka?&nbsp;
-                  <button onClick={() => setView('sign-in')} className="text-green-600 hover:underline font-semibold">
+                  <button
+                    onClick={() => setView('sign-in')}
+                    className="text-green-600 hover:underline font-semibold"
+                  >
                     Login
                   </button>
                 </p>
               )}
             </div>
-            {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
+
+            {message && (
+              <p className="mt-4 text-center text-sm text-red-500">{message}</p>
+            )}
           </>
         )}
       </div>

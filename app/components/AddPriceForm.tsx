@@ -11,7 +11,7 @@ export default function AddPriceForm() {
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Pudhiya Vilayai Serkka</h2>
       <form
         ref={formRef}
-        action={async (formData) => {
+        action={async (formData: FormData) => {
           await createPrice(formData);
           formRef.current?.reset();
         }}
@@ -32,7 +32,6 @@ export default function AddPriceForm() {
             required
             className="p-3 border rounded-md w-full text-gray-900 focus:ring-green-500 focus:border-green-500"
           />
-          {/* Market name is now a text input */}
           <input
             type="text"
             name="market_name"
