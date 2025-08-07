@@ -28,36 +28,36 @@ export async function createPrice(formData: FormData) {
 }
 
 export async function deletePrice(id: string) {
-    const supabase = createServerComponentClient({ cookies });
-    const { data: { user } } = await supabase.auth.getUser();
+  const supabase = createServerComponentClient({ cookies });
+  const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) {
-        console.error('User is not authenticated');
-        return;
-    }
+  if (!user) {
+    console.error('User is not authenticated');
+    return;
+  }
 
-    await supabase.from('prices').delete().match({ id: id, user_id: user.id });
-    revalidatePath('/');
+  await supabase.from('prices').delete().match({ id, user_id: user.id });
+  revalidatePath('/');
 }
 
 export async function updatePrice(id: string, formData: FormData) {
-    const supabase = createServerComponentClient({ cookies });
-    const { data: { user } } = await supabase.auth.getUser();
+  const supabase = createServerComponentClient({ cookies });
+  const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) {
-        console.error('User is not authenticated');
-        return;
-    }
+  if (!user) {
+    console.error('User is not authenticated');
+    return;
+  }
 
-    const vegetable_name = formData.get('vegetable_name') as string;
-    const price = formData.get('price') as string;
-    const market_name = formData.get('market_name') as string;
+  const vegetable_name = formData.get('vegetable_name') as string;
+  const price = formData.get('price') as string;
+  const market_name = formData.get('market_name') as string;
 
-    await supabase.from('prices').update({
-        vegetable_name,
-        price: Number(price),
-        market_name,
-    }).match({ id: id, user_id: user.id });
+  await supabase.from('prices').update({
+    vegetable_name,
+    price: Number(price),
+    market_name,
+  }).match({ id, user_id: user.id });
 
-    revalidatePath('/');
+  revalidatePath('/');
 }
